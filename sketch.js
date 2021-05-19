@@ -222,7 +222,7 @@ function spawnObstacles() {
     obstacle.setCollider("circle",0,0,170)
     obstacle.scale = 0.2;
     obstacle.depth = monkey.depth -1;
-    obstacle.lifetime = 150;
+    obstacle.lifetime = 250;
     
     //adding obstacle in Group
     obstaclesGroup.add(obstacle);
@@ -235,7 +235,7 @@ function spawnFood(){
     food.addImage(bananaImage);
     food.velocityX = V;
     food.scale = 0.1;
-    food.lifetime = 150;
+    food.lifetime = 250;
     
     //adding food in Group
     foodsGroup.add(food);
