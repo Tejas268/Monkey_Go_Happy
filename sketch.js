@@ -4,7 +4,7 @@ var END = 2;
 var WIN = 3;
 var gameState  = PLAY;
 
-var monkey, monkey2, monkey_running, monkeyI, wall, monkey_jumping, ground1, ground2, ground3, back, back1, backIMG, groundImage, groundIMG, youWin, youWinIMG, youWinSound;
+var monkey, monkey2, monkey_running, monkeyI, V, wall, wall1, monkey_jumping, ground1, ground2, ground3, back, back1, backIMG, groundImage, groundIMG, youWin, youWinIMG, youWinSound;
 var banana ,bananaImage, obstacle, obstacleImage, gameOver, gameOverIMG, gameOverSound, reset, resetImage;
 var foodsGroup, obstaclesGroup;
 var score, ST, W, H;
@@ -90,6 +90,9 @@ function setup() {
   wall = createSprite(W-30,H/2,10,H);
   wall.visible = false;
   
+  wall1 = createSprite(50,H/2,10,H);
+  wall1.visible = false;
+  
   foodsGroup = createGroup();
   obstaclesGroup = createGroup();
   
@@ -129,14 +132,15 @@ if (monkey.isTouching(ground1) || monkey.isTouching(ground2) ||   monkey.isTouch
     monkey.collide(ground1);
     monkey.collide(ground2);
     monkey.collide(ground3);
+    monkey.collide(wall1);
   
-  if(keyDown("space") || touches.lenght > 0) {
-      monkey.velocityY = -16; 
+  if(keyDown("space") || touches.length > 0) {
+      monkey.velocityY = -19; 
       monkey.changeAnimation("jumping",monkey_jumping);
     }
   }
     
-    monkey.velocityY = monkey.velocityY + 0.7;
+    monkey.velocityY = monkey.velocityY + 0.9;
     
     spawnObstacles();
     spawnFood();
@@ -147,11 +151,12 @@ if (monkey.isTouching(ground1) || monkey.isTouching(ground2) ||   monkey.isTouch
     }
     
     ST = Math.round(frameCount/31);
-    ground1.velocityX = -(8 + score/8);
-    ground2.velocityX = -(8 + score/8);
-    ground3.velocityX = -(8 + score/8);
-    back.velocityX = -(8 + score/8);
-    back1.velocityX = -(8 + score/8);
+    V = -(8 + score/8);
+    ground1.velocityX = V;
+    ground2.velocityX = V;
+    ground3.velocityX = V;
+    back.velocityX = V;
+    back1.velocityX = V;
     
     if (obstaclesGroup.isTouching(monkey)) {
       gameState = END;
@@ -213,7 +218,7 @@ function spawnObstacles() {
   if (frameCount % 160 === 0) {
     var obstacle = createSprite(W,H-130,20,20);
     obstacle.addImage(obstacleImage);
-    obstacle.velocityX = -(10 + score/8);
+    obstacle.velocityX = V;
     obstacle.setCollider("circle",0,0,170)
     obstacle.scale = 0.2;
     obstacle.depth = monkey.depth -1;
@@ -228,7 +233,7 @@ function spawnFood(){
   if (frameCount % 70 === 0) {
     var food =  createSprite(W,Math.round(random(H/2,H/3)),20,20);
     food.addImage(bananaImage);
-    food.velocityX = -(10 + score/8);
+    food.velocityX = V;
     food.scale = 0.1;
     food.lifetime = 150;
     
