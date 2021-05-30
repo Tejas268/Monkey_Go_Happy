@@ -56,12 +56,20 @@ function setup() {
   monkey.addAnimation("walking", monkey_running);
   monkey.addAnimation("jumping", monkey_jumping);
   monkey.scale = 0.12;
-  monkey.setCollider("rectangle",0,0,monkey.hight,monkey.width);
+  monkey.setCollider("rectangle",0,0,monkey.height,monkey.width);
 
   w2 = createSprite(W/4.2,H/2,10,H);
   w2.visible = false;
+ 
+  backGroup = createGroup();
+  groundGroup = createGroup();
+  foodsGroup = createGroup();
+  firesGroup = createGroup();
+  uFireGroup = createGroup();
+ 
+  gr();
   
-  invisibleGround = createSprite(W/2,H/1.18,W,20);
+  invisibleGround = createSprite(W/2,groundGroup[0].y-groundGroup[0].height/2,W,20);
   invisibleGround.visible = false;
 
   youWin = createSprite(W/3.5,H/2,20,20);
@@ -78,14 +86,6 @@ function setup() {
   reset.addImage(resetImage);
   reset.scale = 0.3;
   reset.visible = false;
-  
-  backGroup = createGroup();
-  groundGroup = createGroup();
-  foodsGroup = createGroup();
-  firesGroup = createGroup();
-  uFireGroup = createGroup();
-
-  gr();
   
   back = createSprite(W/2,H/2,20,20);
   back.addImage(backIMG);
@@ -281,7 +281,7 @@ function gr() {
 
 function spawnFire() {
   if (frameCount % 160 === 0) {
-    var fire = createSprite(W + 20,H/1.35,20,20);
+    var fire = createSprite(W + 20,invisibleGround.y-invisibleGround.height/2,20,20);
     fire.addImage(fireImage);
     fire.velocityX = V;
     fire.setCollider("circle",0,0,fire.width/2-28);
