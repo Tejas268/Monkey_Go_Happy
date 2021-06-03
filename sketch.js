@@ -136,7 +136,6 @@ if (monkey.isTouching(invisibleGround)) {
     spawnUFire();
     spawnFood();
     spawnGround();
-    spawnUGround();
     
     if (foodsGroup.isTouching(monkey)) {
       foodsGroup[0].destroy();
@@ -307,17 +306,5 @@ function spawnUFire() {
     
     //adding up fire in Group
     uFireGroup.add(uFire);
-  }
-}
-
-function spawnUGround() {
-  if (frameCount % 320 === 0) {
-    var ground = createSprite(W,Math.round(random(H/1.8,H/2)),20,20);
-    ground.addImage(grImage);
-    ground.velocityX = -10;
-    ground.scale = 0.03;
-    ground.setCollider("rectangle",0,0,ground.width,ground.height-80)
-
-    groundGroup.add(ground);
   }
 }
