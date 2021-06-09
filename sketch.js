@@ -48,7 +48,7 @@ function setup() {
   H = windowHeight;
   createCanvas(W,H)
   
-  score = 29;
+  score = 0;
   ST = 0;
   
   //crating monkey
