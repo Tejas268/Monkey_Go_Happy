@@ -48,7 +48,7 @@ function setup() {
   H = windowHeight;
   createCanvas(W,H)
   
-  score = 0;
+  score = 29;
   ST = 0;
   
   //crating monkey
@@ -136,10 +136,11 @@ if (monkey.isTouching(invisibleGround)) {
     spawnUFire();
     spawnFood();
     spawnGround();
+    //spawnUGround();
     
     if (foodsGroup.isTouching(monkey)) {
       foodsGroup[0].destroy();
-      score = score + 1;
+      score++;
     }
     
     ST = ST + Math.round(frameRate()/31);
@@ -173,7 +174,10 @@ if (monkey.isTouching(invisibleGround)) {
       r = 2;
     }
     
-    if (mousePressedOver(reset) || touches.length > 0) {
+    if (mousePressedOver(reset) || touches.length > reset.x - reset.width/2 &&
+    touches.length < reset.x + reset.width/2 && touches.width > reset.y - reset.heigth/2
+    && touches.width < reset.y + reset.heigth/2) {
+
       restart();
     }
     
@@ -181,13 +185,14 @@ if (monkey.isTouching(invisibleGround)) {
     youWin.visible = true;
     
     if (n === 1) {
-       monkey1 = createSprite (monkey.x,monkey.y,monkey.width,monkey.height);
+      monkey1 = createSprite (monkey.x,monkey.y,monkey.width,monkey.height);
       monkey1.addImage(monkeyI);
       monkey1.setCollider ("rectangle",0,0,monkey1.width,monkey1.height);
+      monkey.visible = false;
       youWinSound.play();
     }
-    monkey1.velocityY = 4;
-    monkey1.velocityX = 4;
+    monkey1.velocityY = 3.4;
+    monkey1.velocityX = 5;
     
     if (monkey1.isTouching(wall)) {
       monkey1.velocityY = 0;
@@ -228,11 +233,11 @@ function restart() {
   uFireGroup.destroyEach();
   gameOver.visible = false;
   reset.visible = false;
-  monkey.visible = true;
   gr();
   n = 2;
   
   if (gameState === END) {
+    monkey.visible = true;
     score = 0;
     ST = 0;
     r = 1;
@@ -280,7 +285,7 @@ function gr() {
 
 function spawnFire() {
   if (frameCount % 160 === 0) {
-    var fire = createSprite(W + 20,H/1.35,20,20);
+    var fire = createSprite(W + 20,invisibleGround.y-72,20,20);
     fire.addImage(fireImage);
     fire.velocityX = V;
     fire.setCollider("circle",0,0,fire.width/2-28);
@@ -295,7 +300,7 @@ function spawnFire() {
 
 function spawnUFire() {
   if (frameCount % 220 === 0) {
-    var uFire = createSprite(W + 20,20,20,20);
+    var uFire = createSprite(W + 20,13,20,20);
     uFire.addImage(uFireImage);
     uFire.velocityX = -(26 + score/10);
     uFire.velocityY = (9 + score/10);
@@ -306,5 +311,17 @@ function spawnUFire() {
     
     //adding up fire in Group
     uFireGroup.add(uFire);
+  }
+}
+
+function spawnUGround() {
+  if (frameCount % 320 === 0) {
+    var ground = createSprite(W,Math.round(random(H/1.8,H/2)),20,20);
+    ground.addImage(grImage);
+    ground.velocityX = -10;
+    ground.scale = 0.03;
+    ground.setCollider("rectangle",0,0,ground.width,ground.height-80)
+
+    groundGroup.add(ground);
   }
 }
